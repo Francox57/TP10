@@ -7,6 +7,13 @@
 #elif(ANCHO>50 || ALTO>50 || ANCHO*ALTO>1000)
 #warning parametros muy altos, sera dificil de ver la matriz
 #endif
+#include <allegro5/allegro5.h>
+#include <allegro5/allegro_font.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
 void llenar_mat (int mat[ALTO][ANCHO]);//Funcion para llenar matriz
 void inicio(int mat [ALTO][ANCHO]); //Funcion para meter valores vivos
 void generacion( int mat[ALTO][ANCHO],int matReferencia[ALTO][ANCHO], int tiempo); //Funcion loop para las generaciones
