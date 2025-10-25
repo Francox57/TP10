@@ -177,13 +177,17 @@ void must_init(bool test, const char *descripcion)
     exit(1);
 }
 
-void dibujar_filycol(int dispAlto, int dispAncho){
+void dibujar_filycol(int dispAlto, int dispAncho,float lado){
     int i;
-    for (i = 0; i < ANCHO; i++){
-        al_draw_line((dispAncho/ANCHO)*i,0, (dispAncho/ANCHO)*i, dispAlto, al_map_rgb(255, 0, 255), 0);
+    float offsetx = (dispAncho - lado*ANCHO)/2;
+    float offsety = (dispAlto - lado*ALTO)/2; 
+    for (i = 0; i <= ANCHO; i++){
+        float x = offsetx + i*lado;
+        al_draw_line(x,offsety, x, offsety+lado*ALTO, al_map_rgb(255, 0, 255), 0);
     }
-    for (i = 0; i < ALTO; i++){
-        al_draw_line(0,(dispAlto/ALTO)*i, dispAncho, (dispAlto/ALTO)*i, al_map_rgb(255, 0, 255), 0);
+    for (i = 0; i <= ALTO; i++){
+        float y = offsety + i*lado;
+        al_draw_line(offsetx,y, offsetx+lado*ANCHO, y, al_map_rgb(255, 0, 255), 0);
     }
     
     
