@@ -1,11 +1,11 @@
 #ifndef HEADER_H
 #define HEADER_H
-#define ANCHO 10
-#define ALTO 7
+#define ANCHO 30
+#define ALTO 30
 #if (ANCHO<=0 || ALTO<=0)
 #error valor invalido para matriz
 #elif(ANCHO>50 || ALTO>50 || ANCHO*ALTO>1000)
-#warning parametros muy altos, sera dificil de ver la matriz
+#warning parametros muy altos, sera disficil de ver la matriz
 #endif
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_font.h>

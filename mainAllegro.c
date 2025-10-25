@@ -60,26 +60,25 @@ int main(int argc, char const *argv[])
         else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP){ 
             float mousex = event.mouse.x;
             float mousey = event.mouse.y;
-            
+            if(ANCHO >= ALTO){
             for (int i = 0; i <= ALTO+dif; i++){ // Recorre la matriz y grilla y se fija donde se toco y pone o mata una
                 for (int j = 0; j <= ANCHO; j++){
                     int flag = i-(1+dif) < 0? 0 : 1;
                     if (mousex < i*(lado) && mousey < (lado)*j+offsety && mousey > offsety && mousey<disAlto-offsety){
+                            printf("%d\n",j-1);
+                            printf("%d\n",i-1);
                         if (mat[j-1][i-1] == ' '){
                             mat[j-1][i-1] = '*';
                             
-                            printf("%d\n",mat[i-(1+dif)][j-1]);
+
                             al_draw_filled_rectangle(lado*(i-1),lado*(j-1)+offsety,lado*(i-1)+lado, lado*(j-1)+lado+offsety,al_map_rgb(0,255,0));
-                            al_play_sample(pew, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                            j = (ANCHO+1);
+                            al_play_sample(pew, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                            j = (ANCHO+dif+1);
                             i = (ALTO+dif+1);
                         }else if(mat[j-1][i-1]  == '*'){
                             mat[j-1][i-1]  = ' ';
-                            printf("%d\n",i);
-                            printf("%d\n",j);
-                            printf("%d\n",mat[i-(1+dif)][j-1]);
                             al_draw_filled_rectangle(lado*(i-1),lado*(j-1)+offsety,lado*(i-1)+lado, lado*(j-1)+lado+offsety,al_map_rgb(0,0,0));
-                            al_play_sample(pew, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                            al_play_sample(pew, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                             j = (ANCHO+dif+1);
                             i = (ALTO+dif+1);
                             printf("negro");
@@ -90,19 +89,50 @@ int main(int argc, char const *argv[])
             }
             copiar(mat,matReferencia);
             al_flip_display(); // muestra la imagen
-        }else if (event.type == ALLEGRO_EVENT_KEY_CHAR){
+        }
+        else{
+            for (int i = 0; i <= ALTO; i++){ // Recorre la matriz y grilla y se fija donde se toco y pone o mata una
+                for (int j = 0; j <= ANCHO+dif; j++){
+                    printf("%f\n",mousex);
+                    printf("%f\n",mousey); 
+                    if (mousex > i*(lado)+offsetx && mousey > (lado)*j && mousex > offsetx && mousex<disAncho-offsetx){
+                        if (mat[i][j] == ' '){
+                            mat[i][j] = '*';
+                            printf("%d\n",j);
+                            printf("%d\n",i);
+                            al_draw_filled_rectangle(lado*(j)+offsetx,lado*(i),lado*(j)+lado+offsetx, lado*(i)+lado,al_map_rgb(0,255,0));
+                            al_play_sample(pew, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                            j = (ANCHO+dif+1);
+                            i = (ALTO+dif+1);
+                        }else if(mat[j][i]  == '*'){
+                            mat[j][i]  = ' ';
+                            al_draw_filled_rectangle(lado*(i)+offsetx,lado*(j),lado*(i)+lado+offsetx, lado*(j)+lado,al_map_rgb(0,0,0));
+                            al_play_sample(pew, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                            j = (ANCHO+dif+1);
+                            i = (ALTO+dif+1);
+                        }
+                        
+                    }
+                }
+            }
+            copiar(mat,matReferencia);
+            al_flip_display(); // muestra la imagen
+        }
+    }
+        else if (event.type == ALLEGRO_EVENT_KEY_CHAR){
             if (event.keyboard.keycode == ALLEGRO_KEY_ENTER){
                 generacion_allegro(mat,matReferencia);
-
-                for (int i = 0; i <= ALTO; i++){ 
-                    for (int j = 0; j <= ANCHO; j++){
-                        printf("%d\n",i);
-                        printf("%d\n",j);
-                        printf("%d\n",mat[i][j]);
-                        if (mat[i][j] == '*'){
-                            al_draw_filled_rectangle(lado*(i)+offsetx,lado*(j)-offsety,lado*(i)+lado, lado*(j)+lado-offsety,al_map_rgb(0,255,0));
+                print_mat(mat);
+                for (int i = 1; i <= ALTO+dif; i++){ 
+                    for (int j = 1; j <= ANCHO; j++){
+                        if (mat[j-1][i-1] == '*'){
+                            al_draw_filled_rectangle(lado*(i-1),lado*(j-1)+offsety,lado*(i-1)+lado, lado*(j-1)+lado+offsety,al_map_rgb(0,255,0));
+                            al_draw_filled_rectangle(0,0,disAncho, offsety,al_map_rgb(0,0,0));
+                            al_draw_filled_rectangle(0,disAlto-offsety,disAncho, disAlto,al_map_rgb(0,0,0));
                         }else{
-                            al_draw_filled_rectangle(lado*(i)+offsetx,lado*(j)-offsety,lado*(i)+lado, lado*(j)+lado-offsety,al_map_rgb(0,0,0));
+                            al_draw_filled_rectangle(lado*(i-1),lado*(j-1)+offsety,lado*(i-1)+lado, lado*(j-1)+lado+offsety,al_map_rgb(0,0,0));
+                            al_draw_filled_rectangle(0,0,disAncho, offsety,al_map_rgb(0,0,0));
+                            al_draw_filled_rectangle(0,disAlto-offsety,disAncho, disAlto,al_map_rgb(0,0,0));
                         }   
                     }
                 }
@@ -115,11 +145,8 @@ int main(int argc, char const *argv[])
 
         if(redraw && al_is_event_queue_empty(queue))
         {   
-            
             dibujar_filycol(disAlto,disAncho,lado);
             al_flip_display();
-            al_rest(1);
-            print_mat(mat);
             redraw = false;
         }
     }
