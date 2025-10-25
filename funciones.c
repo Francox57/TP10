@@ -166,3 +166,45 @@ void copiar(int mat[ALTO][ANCHO],int matReferencia[ALTO][ANCHO]){ //Funcion que 
         }
     }
 }
+
+// FUNCIONES CON ALLEGRO 
+
+void must_init(bool test, const char *descripcion)
+{
+    if(test) return;
+
+    printf("No se pudo inicializar %s\n", descripcion);
+    exit(1);
+}
+
+void dibujar_filycol(int dispAlto, int dispAncho){
+    int i;
+    for (i = 0; i < ANCHO; i++){
+        al_draw_line((dispAncho/ANCHO)*i,0, (dispAncho/ANCHO)*i, dispAlto, al_map_rgb(255, 0, 255), 0);
+    }
+    for (i = 0; i < ALTO; i++){
+        al_draw_line(0,(dispAlto/ALTO)*i, dispAncho, (dispAlto/ALTO)*i, al_map_rgb(255, 0, 255), 0);
+    }
+    
+    
+}
+
+void generacion_allegro( int mat[ALTO][ANCHO], int matReferencia[ALTO][ANCHO]){
+    int i, j;//Valor fila columna
+
+        for(i=0;i<ALTO;i++){
+            for(j=0;j<ANCHO;j++){
+                if (mat[i][j] == ' '){//Se fija si hay una celda muerta
+                    nace(mat,matReferencia,i,j);//Manda a revisar si en ese espacio nace una celula
+                }
+            }
+        }
+        for(i=0;i<ALTO;i++){
+            for(j=0;j<ANCHO;j++){
+                if (mat[i][j] == '*'){//Se fija si hay una celda viva
+                    muere(mat,matReferencia,i,j);//Manda a revisar si en ese espacio nace una celula
+                }
+            }
+        }
+        copiar(mat,matReferencia); //Se copia el lado de la matriz para luego hacer los calculos correspondientes        
+}

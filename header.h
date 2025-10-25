@@ -1,7 +1,7 @@
 #ifndef HEADER_H
 #define HEADER_H
-#define ANCHO 10
-#define ALTO 10
+#define ANCHO 30
+#define ALTO 30
 #if (ANCHO<=0 || ALTO<=0)
 #error valor invalido para matriz
 #elif(ANCHO>50 || ALTO>50 || ANCHO*ALTO>1000)
@@ -22,5 +22,10 @@ void muere (int mat[ALTO][ANCHO],int matReferencia[ALTO][ANCHO], int i, int j);/
 void print_mat (int mat[ALTO][ANCHO]);//Funcion para imprimir la matriz
 int numero (void);//{asar de getchar a int
 void copiar(int mat[ALTO][ANCHO],int matReferencia[ALTO][ANCHO]);// Funcion para copiar matriz
+
+// FUNCIONES PARA ALLEGRO 
+void must_init(bool test, const char *descrpcion); // Se fija que inicialize bien todo
+void dibujar_filycol(int dispAlto, int dispAncho); // dibuja las filas y columnas
+void generacion_allegro( int mat[ALTO][ANCHO], int matReferencia[ALTO][ANCHO]); // pasa una generacion si se apreta enter
 
 #endif
