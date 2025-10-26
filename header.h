@@ -1,6 +1,6 @@
 #ifndef HEADER_H
 #define HEADER_H
-#define ANCHO 10
+#define ANCHO 20
 #define ALTO 30
 #if (ANCHO<=0 || ALTO<=0)
 #error valor invalido para matriz

@@ -167,9 +167,9 @@ void copiar(int mat[ALTO][ANCHO],int matReferencia[ALTO][ANCHO]){ //Funcion que 
     }
 }
 
-// FUNCIONES CON ALLEGRO 
+// FUNCIONES CON ALLEGRO //
 
-void must_init(bool test, const char *descripcion)
+void must_init(bool test, const char *descripcion) // Se asegura que todo se inicialize bien
 {
     if(test) return;
 
@@ -177,7 +177,7 @@ void must_init(bool test, const char *descripcion)
     exit(1);
 }
 
-void dibujar_filycol(int dispAlto, int dispAncho,float lado){
+void dibujar_filycol(int dispAlto, int dispAncho,float lado){ // Dibuja las filas y columnas calculando el offset
     int i;
     float offsetx = (dispAncho - lado*ANCHO)/2;
     float offsety = (dispAlto - lado*ALTO)/2; 
