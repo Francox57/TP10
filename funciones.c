@@ -177,17 +177,17 @@ void must_init(bool test, const char *descripcion) // Se asegura que todo se ini
     exit(1);
 }
 
-void dibujar_filycol(int dispAlto, int dispAncho,float lado){ // Dibuja las filas y columnas calculando el offset
+void dibujar_filycol(int dispAlto, int dispAncho,float lado,ALLEGRO_COLOR color){ // Dibuja las filas y columnas calculando el offset
     int i;
     float offsetx = (dispAncho - lado*ANCHO)/2;
     float offsety = (dispAlto - lado*ALTO)/2; 
     for (i = 0; i <= ANCHO; i++){
         float x = offsetx + i*lado;
-        al_draw_line(x,offsety, x, offsety+lado*ALTO, al_map_rgb(255, 0, 255), 0);
+        al_draw_line(x,offsety, x, offsety+lado*ALTO, color, 0);
     }
     for (i = 0; i <= ALTO; i++){
         float y = offsety + i*lado;
-        al_draw_line(offsetx,y, offsetx+lado*ANCHO, y, al_map_rgb(255, 0, 255), 0);
+        al_draw_line(offsetx,y, offsetx+lado*ANCHO, y, color, 0);
     }
     
     

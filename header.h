@@ -1,7 +1,8 @@
 #ifndef HEADER_H
 #define HEADER_H
 #define ANCHO 20
-#define ALTO 30
+#define ALTO 20
+#define MAXTHEMES 4
 #if (ANCHO<=0 || ALTO<=0)
 #error valor invalido para matriz
 #elif(ANCHO>50 || ALTO>50 || ANCHO*ALTO>1000)
@@ -27,7 +28,7 @@ void copiar(int mat[ALTO][ANCHO],int matReferencia[ALTO][ANCHO]);// Funcion para
 
 // FUNCIONES PARA ALLEGRO 
 void must_init(bool test, const char *descrpcion); // Se fija que inicialize bien todo
-void dibujar_filycol(int dispAlto, int dispAncho,float lado); // dibuja las filas y columnas
+void dibujar_filycol(int dispAlto, int dispAncho,float lado,ALLEGRO_COLOR color); // dibuja las filas y columnas
 void generacion_allegro( int mat[ALTO][ANCHO], int matReferencia[ALTO][ANCHO]); // pasa una generacion si se apreta enter
 
 #endif
