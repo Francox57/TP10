@@ -20,14 +20,14 @@ int main()
     ////////////////////////////////
 
     // BLOQUE DE VARIABLES /////////////////
-    int disAlto = 700;
-    int disAncho = 500;
+    int disAlto = 720;
+    int disAncho = 720;
     ALLEGRO_DISPLAY* disp = al_create_display(disAncho, disAlto);
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 60.0);
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
     ALLEGRO_SAMPLE* pew = al_load_sample("pew_pew-dknight556-1379997159.wav");
     ALLEGRO_AUDIO_STREAM* music = al_load_audio_stream("HarvestDawn.ogg",2, 2048);
-    ALLEGRO_FONT* font = al_load_ttf_font("OpenSans.ttf",(disAlto*disAncho)/25000,0);
+    ALLEGRO_FONT* font = al_load_ttf_font("OpenSans.ttf",15,0);
     must_init(font,"font");
     must_init(pew, "pew"); 
     must_init(music, "music");
@@ -45,8 +45,8 @@ int main()
 
     }THEMES;
     
-    THEMES dark = {"dark",al_map_rgb(255,255,255),al_map_rgb(0,0,0),al_map_rgb(192,192,192),al_map_rgb(204,204,0)};
-    THEMES light = {"light",al_map_rgb(0,0,0),al_map_rgb(255,255,255),al_map_rgb(192,192,192),al_map_rgb(0,102,204)};
+    THEMES dark = {"Dark",al_map_rgb(255,255,255),al_map_rgb(0,0,0),al_map_rgb(192,192,192),al_map_rgb(204,204,0)};
+    THEMES light = {"Light",al_map_rgb(0,0,0),al_map_rgb(255,255,255),al_map_rgb(192,192,192),al_map_rgb(0,102,204)};
     THEMES bluescreen = {"Blue Screen",al_map_rgb(255,255,255),al_map_rgb(102,102,255),al_map_rgb(192,192,192),al_map_rgb(255,255,255)};
     THEMES random = {"Random",al_map_rgb(rand() % 256,rand() % 256,rand() % 256),al_map_rgb(rand() % 256,rand() % 256,rand() % 256),al_map_rgb(rand() % 256,rand() % 256,rand() % 256),al_map_rgb(rand() % 256,rand() % 256,rand() % 256)};
     
@@ -91,21 +91,20 @@ int main()
             if(inicio){
                 float mousex = event.mouse.x; // recibe la posicion en x de donde hizo click
                 float mousey = event.mouse.y; // recibe la posicion en y de donde hizo click
-                for (int i = 0; i <= ANCHO; i++){ // Recorre la matriz y grilla y se fija donde se toco y pone o mata una
-                    for (int j = 0; j <= ALTO; j++){
+                bool flag = false;
+                for (int i = 0; i <= ANCHO && !flag; i++){ // Recorre la matriz y grilla y se fija donde se toco y pone o mata una
+                    for (int j = 0; j <= ALTO && !flag; j++){
                         if (mousex < i*(lado)+offsetx && mousey < (lado)*j+offsety && mousey > offsety && mousey<disAlto-offsety && mousex > offsetx && mousex < disAncho-offsetx){ // Se fije en que casilla se toco y que cumpla que no toque los bordes negros si es que hay offset
                             if (mat[j-1][i-1] == ' '){ 
                                 mat[j-1][i-1] = '*';  // Revive una celda           
                                 al_draw_filled_rectangle(lado*(i-1)+offsetx,lado*(j-1)+offsety,lado*(i-1)+lado+offsetx, lado*(j-1)+lado+offsety,themeslist[contador].color_casilleros); // Dibuja celda viva
                                 al_play_sample(pew, 0.35, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                                j = (ANCHO*2);
-                                i = (ALTO*2);
+                                flag = true;
                             }else if(mat[j-1][i-1]  == '*'){
                                 mat[j-1][i-1]  = ' '; // Mata una celda           
                                 al_draw_filled_rectangle(lado*(i-1)+offsetx,lado*(j-1)+offsety,lado*(i-1)+lado+offsetx, lado*(j-1)+lado+offsety,themeslist[contador].color_pantalla); // Dibuja celda muerta
                                 al_play_sample(pew, 0.35, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                                j = (ANCHO*2);
-                                i = (ALTO*2);
+                                flag = true;
                             }
                         }
                     }
@@ -131,10 +130,6 @@ int main()
                 inicio = true; 
                 al_clear_to_color(themeslist[contador].color_pantalla);
             }else if ((event.keyboard.keycode == ALLEGRO_KEY_RIGHT || event.keyboard.keycode == ALLEGRO_KEY_LEFT) && !inicio){
-                random.color_casilleros = al_map_rgb(rand()%256,rand()%256,rand()% 256);
-                random.color_pantalla = al_map_rgb(rand()%256,rand()%256,rand()% 256);
-                random.color_texto = al_map_rgb(rand()%256,rand()%256,rand()% 256);
-                random.color_lineas = al_map_rgb(rand()%256,rand()%256,rand()% 256);
                 if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT){
                     if (contador >= 0 && contador <= MAXTHEMES-1){
                         contador++;
@@ -153,6 +148,14 @@ int main()
                         }
                     }
                 }
+
+                if (contador == MAXTHEMES-1){
+                random.color_casilleros = al_map_rgb(rand()%256,rand()%256,rand()% 256);
+                random.color_pantalla = al_map_rgb(rand()%256,rand()%256,rand()% 256);
+                random.color_texto = al_map_rgb(rand()%256,rand()%256,rand()% 256);
+                random.color_lineas = al_map_rgb(rand()%256,rand()%256,rand()% 256);
+                }
+                
                 
             printf("%d",contador);
             al_clear_to_color(themeslist[contador].color_pantalla);    

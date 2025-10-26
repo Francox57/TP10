@@ -1,7 +1,7 @@
 #ifndef HEADER_H
 #define HEADER_H
-#define ANCHO 20
-#define ALTO 20
+#define ANCHO 30
+#define ALTO 30
 #define MAXTHEMES 4
 #if (ANCHO<=0 || ALTO<=0)
 #error valor invalido para matriz
